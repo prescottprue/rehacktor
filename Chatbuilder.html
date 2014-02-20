@@ -9,6 +9,8 @@
   <body>
 
     <script>
+    //Tried adding type="text/javaScript" to remove unexpected token error on iter:1, this did not solve it.
+    //Code runs fine, but console logs this error evertime on refresh.
       /*
        *  Nice, you found the HTML source code for ChatBuilder! This document kicks everything off when you load it
        *  in your browser, and is a starting point for the whole app. It's pretty incomplete though--you should
@@ -34,7 +36,6 @@
        */
 
       Chat.guide(10);
-      //Display all messages
       delete Chat.display;
       delete Chat.fetch; 
       delete Chat.send;
@@ -43,10 +44,11 @@
       Chat.display = function(msg){ 
         //Append input string to list
         $(".messages").append('<li>' + msg + '</li>'); 
-        };
+        };//End custom Chat.display
 
       //Add fetch back to chat object
       Chat.fetch = function(){
+        //Get chat stream
         $.ajax({
           type:"GET",
           url: "https://api.parse.com/1/classes/chats",
@@ -60,7 +62,7 @@
             var chatText = chatObject.text;
             var chatMod = chatObject.updatedAt;
             Chat.display(chatText);
-            }//End for
+            }//End for loop
           }//End success function
         })//End Ajax get
 
@@ -77,9 +79,9 @@
           }
         });
       */
-      }; //End chat.fetch
+      }; //End custom Chat.fetch
 
-      //Add fetch back to chat object
+      //Add send back to chat object
       Chat.send = function(msg){
         $.ajax({
           type: "POST",
@@ -89,7 +91,7 @@
             console.log('sent');
           }
         })//End Ajax post
-      };//End chat.send
+      };//End custom Chat.send
 
       //Display function on new blank object (instead of adding back to existing chat object)
       /*
@@ -119,7 +121,6 @@
 
       // Allow user to enter their own message via the input box
       $(document).ready(function() {
-        Chat.display("money");
         $('.send').click(function() {
           Chat.send($('.draft').val());
         });
